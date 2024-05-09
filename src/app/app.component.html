@@ -4,7 +4,6 @@
     <div class="position-absolute top-50 start-50 translate-middle card_seaction">
       <div class="card survey-card">
 
-        
         <div class="card-body justify-content-center">
 
           <ng-container *ngIf="isLoading">
@@ -35,6 +34,76 @@
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
               </ng-container>
             </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="position-absolute bottom-0 start-50 translate-middle-x mb-3">
+      <a class="btn concept_btn" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Concept</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header align-center">
+        <h5 class="modal-title" id="exampleModalToggleLabel">Sparkling Red Wines</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12">
+            <p>Sparkling Red Wines are a unique take on traditional red wine.</p>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-12">
+            <p>Crafted from red grapes, just like classic reds, Sparkling Red Wine undergoes a 
+              second fermentation to create a delightful fizz.</p>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-12">
+            <p>From bold to fruity, the grape varietal used plays a starring role in the flavor profile.</p>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-12">
+            <p>Currently available in 3 types:</p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mt-2">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Traditional Sparkling Red Wine</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Established Sparkling Red Wine 
+                  products.</h6>
+                  <img class="img-fluid" src="../assets/images/image.png">
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mt-2">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Traditional Sparkling Red Wine</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Established Sparkling Red Wine 
+                  products.</h6>
+                  <img class="img-fluid" src="../assets/images/2nd_wine.png">
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mt-2">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Traditional Sparkling Red Wine</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Established Sparkling Red Wine 
+                  products.</h6>
+                  <img class="img-fluid" src="../assets/images/3rd_wine.png">
+              </div>
+            </div>
           </div>
         </div>
       </div>
