@@ -14,7 +14,6 @@
           </ng-container>
 
           <ng-container *ngIf="!isLoading">
-            <h1>{{ paramsData.no_of_question }}</h1>
             <h4 class="card-title">{{ surveyResponse.assistant_response }}</h4>
             <div class="input-group mb-3">
               <textarea [(ngModel)]="userResponseMessage" class="form-control text-gray-900 shadow-sm text-sm block w-full"></textarea>
@@ -24,8 +23,16 @@
 
         <div class="card-footer">
           <div class="d-flex bd-highlight">
-            <button type="button" class="btn btn-success me-auto bd-highlight" [disabled]="isLoading">Listen</button>
-            <button (click)="submit()" type="button" class="btn btn-success bd-highlight" [disabled]="isLoading">Submit</button>
+            <h5 class="me-auto bd-highlight">{{currentQuestionCount}} of {{ paramsData?.no_of_question}}</h5>
+            <button (click)="submit()" type="button" class="btn btn-success bd-highlight" [disabled]="isLoading">
+              <ng-container *ngIf="!isLoading">
+                Submit
+              </ng-container>
+              <ng-container *ngIf="isLoading">
+                wait...
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              </ng-container>
+            </button>
           </div>
         </div>
       </div>

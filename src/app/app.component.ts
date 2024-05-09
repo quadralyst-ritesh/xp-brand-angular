@@ -14,6 +14,7 @@ export class AppComponent {
   public isLoading = true;
   public paramsData: any;
   public userResponseMessage = '';
+  public currentQuestionCount = 0;
 
   constructor(
     private surveyApiService: SurveyApiService,
@@ -57,6 +58,7 @@ export class AppComponent {
       console.log('Response of start: ', response);
       if(response && response.thread_id){
         this.surveyResponse = response;
+        this.currentQuestionCount = 1;
         this.isLoading = false;
       }
     }, error => {
@@ -105,11 +107,11 @@ export class AppComponent {
     if (response) {
       this.userResponseMessage = '';
       this.isLoading = false;
-  
-      if (this.paramsData.no_of_question === 1) {
+      
+      if (Number(this.paramsData.no_of_question) === Number(this.currentQuestionCount)) {
         this.redirectToUrl();
       } else {
-        this.paramsData.no_of_question--;
+        this.currentQuestionCount++;
         this.surveyResponse.assistant_response = response.assistant_response;
       }
     }
