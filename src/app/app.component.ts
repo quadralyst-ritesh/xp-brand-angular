@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SurveyApiService } from './api-service/survey-api.service';
 
 @Component({
@@ -17,7 +17,7 @@ export class AppComponent {
 
   constructor(
     private surveyApiService: SurveyApiService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
   ){
 
   }
@@ -32,7 +32,7 @@ export class AppComponent {
       const returnUrl = params['return-url'];
       const uuid = params['uuid'];
 
-      const surveyObj = {
+      const paramsObj = {
         fs_uuid: fsUuid,
         no_of_question: noOfQuestion,
         fs_surveyid: fsSurveyId,
@@ -42,17 +42,18 @@ export class AppComponent {
         uuid: uuid,
       }
 
-      if(this.allValuesPresent(surveyObj)){
-        this.paramsData = surveyObj;
+      if(this.allValuesPresent(paramsObj)){
+        this.paramsData = paramsObj;
         this.isLoading = true;
-        this.startConversation(surveyObj);
+        console.log('Params data: ', paramsObj);
+        this.startConversation(paramsObj);
       }
     });
   }
 
 
-  private startConversation(surveyObj: any){
-    this.surveyApiService.callStartConversation(surveyObj).subscribe(response => {
+  private startConversation(paramsObj: any){
+    this.surveyApiService.callStartConversation(paramsObj).subscribe(response => {
       console.log('Response of start: ', response);
       if(response && response.thread_id){
         this.surveyResponse = response;
@@ -63,19 +64,60 @@ export class AppComponent {
     })
   }
 
-  public submit(){
-    this.isLoading = true;
-    this.paramsData.no_of_question--
-    this.surveyApiService.submitConversation(this.surveyResponse.thread_id, this.userResponseMessage).subscribe(res => {
-      console.log('After user submit respose: ', res)
-      if(res){
-        this.surveyResponse.assistant_response = res.assistant_response;
-        this.userResponseMessage = '';
-        this.isLoading = false;
+  // public submit(){
+  //   this.isLoading = true;
+  //   if(this.paramsData.no_of_question !== 1){
+  //     this.paramsData.no_of_question--
+  //   }
+
+  //   this.surveyApiService.submitConversation(this.surveyResponse.thread_id, this.userResponseMessage).subscribe(res => {
+  //     console.log('After user submit respose: ', res)
+  //     if(res){
+  //       this.userResponseMessage = '';
+  //       this.isLoading = false;
+
+  //       if(this.paramsData.no_of_question === 1){
+
+  //         /* Navigate to return URL from first response */
+
+  //       }else {
+  //         this.surveyResponse.assistant_response = res.assistant_response;
+  //       }
+  //     }
+  //   }, error => {
+  //     console.error('Error', error);
+  //   })
+  // }
+
+  public submit(): void {
+    this.isLoading = true;  
+    this.surveyApiService.submitConversation(this.surveyResponse.thread_id, this.userResponseMessage)
+      .subscribe(
+        res => this.handleSuccessfulSubmission(res),
+        error => {
+        console.error('Error', error);
+        }
+      );
+  }
+  
+  private handleSuccessfulSubmission(response: any): void {
+    console.log('After user submit response: ', response);
+    if (response) {
+      this.userResponseMessage = '';
+      this.isLoading = false;
+  
+      if (this.paramsData.no_of_question === 1) {
+        this.redirectToUrl();
+      } else {
+        this.paramsData.no_of_question--;
+        this.surveyResponse.assistant_response = response.assistant_response;
       }
-    }, error => {
-      console.error('Error', error);
-    })
+    }
+  }
+
+  redirectToUrl() {
+    const url = this.paramsData.return_url;
+    window.open(url, '_blank');
   }
 
   private allValuesPresent(obj: any) {
