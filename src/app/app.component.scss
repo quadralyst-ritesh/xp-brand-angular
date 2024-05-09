@@ -1,0 +1,13 @@
+.card_seaction {
+    width: 70%;
+}
+.img-fluid {
+    object-fit: cover;
+}
+.card {
+    background-color: #f5f5f5d1 !important;
+    border-radius: 20px;
+    .card-body {
+        text-align: center;
+    }
+}
