@@ -3,16 +3,29 @@
     <img src="../assets/images/background_img.jpg" class="img-fluid h-100 w-100 position-absolute top-0 start-0">
     <div class="position-absolute top-50 start-50 translate-middle card_seaction">
       <div class="card">
+
+        
         <div class="card-body justify-content-center">
-          <h4 class="card-title">What industry is your intended Market Research (MR) Survey geared towards?</h4>
-          <div class="input-group mb-3">
-            <textarea class="form-control text-gray-900 shadow-sm text-sm block w-full"></textarea>
-          </div>
+
+          <ng-container *ngIf="isLoading">
+            <div  class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="!isLoading">
+            <h1>{{ paramsData.no_of_question }}</h1>
+            <h4 class="card-title">{{ surveyResponse.assistant_response }}</h4>
+            <div class="input-group mb-3">
+              <textarea [(ngModel)]="userResponseMessage" class="form-control text-gray-900 shadow-sm text-sm block w-full"></textarea>
+            </div>
+          </ng-container>
         </div>
+
         <div class="card-footer">
           <div class="d-flex bd-highlight">
-            <button type="button" class="btn btn-success me-auto bd-highlight">Listen</button>
-            <button type="button" class="btn btn-success bd-highlight">Submit</button>
+            <button type="button" class="btn btn-success me-auto bd-highlight" [disabled]="isLoading">Listen</button>
+            <button (click)="submit()" type="button" class="btn btn-success bd-highlight" [disabled]="isLoading">Submit</button>
           </div>
         </div>
       </div>

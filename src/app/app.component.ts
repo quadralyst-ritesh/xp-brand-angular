@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SurveyApiService } from './api-service/survey-api.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +8,12 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'survey-application';
+  title = 'xp-brand.ai';
 
-  private subscriptions: Subscription[] = [];
+  public surveyResponse: any;
+  public isLoading = true;
+  public paramsData: any;
+  public userResponseMessage = '';
 
   constructor(
     private surveyApiService: SurveyApiService,
@@ -39,15 +41,45 @@ export class AppComponent {
         return_url: returnUrl,
         uuid: uuid,
       }
-      this.startConversation(surveyObj)
+
+      if(this.allValuesPresent(surveyObj)){
+        this.paramsData = surveyObj;
+        this.isLoading = true;
+        this.startConversation(surveyObj);
+      }
     });
   }
 
 
   private startConversation(surveyObj: any){
-    console.log('surveyObj: ', surveyObj);
     this.surveyApiService.callStartConversation(surveyObj).subscribe(response => {
       console.log('Response of start: ', response);
+      if(response && response.thread_id){
+        this.surveyResponse = response;
+        this.isLoading = false;
+      }
+    }, error => {
+      console.error('Error', error);
     })
+  }
+
+  public submit(){
+    this.isLoading = true;
+    this.paramsData.no_of_question--
+    this.surveyApiService.submitConversation(this.surveyResponse.thread_id, this.userResponseMessage).subscribe(res => {
+      console.log('After user submit respose: ', res)
+      if(res){
+        this.surveyResponse.assistant_response = res.assistant_response;
+        this.userResponseMessage = '';
+        this.isLoading = false;
+      }
+    }, error => {
+      console.error('Error', error);
+    })
+  }
+
+  private allValuesPresent(obj: any) {
+    const values = Object.values(obj);
+    return values.every(value => !!value);
   }
 }
