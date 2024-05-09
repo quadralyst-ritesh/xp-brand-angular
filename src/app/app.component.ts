@@ -119,7 +119,8 @@ export class AppComponent {
 
   redirectToUrl() {
     const url = this.paramsData.return_url;
-    window.open(url, '_blank');
+    // window.open(url, '_blank');
+    window.location.replace(url);
   }
 
   private allValuesPresent(obj: any) {

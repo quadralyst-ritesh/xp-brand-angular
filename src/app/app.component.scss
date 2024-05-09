@@ -1,5 +1,5 @@
 .card_seaction {
-    width: 80%;
+    width: 70%;
 }
 .img-fluid {
     object-fit: cover;
@@ -10,4 +10,14 @@
     .card-body {
         text-align: center;
     }
+}
+
+.survey-card{
+    // margin-top: 13%;
+    padding: 10px 6%;
+}
+
+.card-footer{
+    background-color: rgb(245 245 245 / 0%) !important;
+    border: none !important;
 }
